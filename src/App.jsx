@@ -581,6 +581,7 @@ function Login() {
 function Signup() {
   const navigate = useNavigate()
 
+  const [username, setUsername] = useState('')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -610,6 +611,7 @@ function Signup() {
         password,
         options: {
           data: {
+            username,
             display_name: name,
             phone,
           },
@@ -647,6 +649,19 @@ function Signup() {
         </p>
 
         <form onSubmit={handleSignup}>
+          <div className="form-group">
+            <label>Username</label>
+
+            <input
+              type="text"
+              value={username}
+              onChange={(e) =>
+                setUsername(e.target.value)
+              }
+              required
+            />
+          </div>
+
           <div className="form-group">
             <label>Name</label>
 
