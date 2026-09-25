@@ -175,6 +175,16 @@ function Account() {
   const [roles, setRoles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
+
+  const [editing, setEditing] = useState(false)
+  const [saving, setSaving] = useState(false)
+
+  const [username, setUsername] = useState('')
+  const [displayName, setDisplayName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
+  const [gender, setGender] = useState('')
 
   useEffect(() => {
     async function loadAccount() {
@@ -241,6 +251,77 @@ function Account() {
     loadAccount()
   }, [navigate])
 
+  /* =========================
+     START EDITING
+  ========================= */
+
+  function handleEdit() {
+    setError('')
+    setMessage('')
+
+    setUsername(profile?.username || '')
+    setDisplayName(profile?.display_name || '')
+    setPhone(profile?.phone || '')
+    setAddress(profile?.address || '')
+    setGender(profile?.gender || '')
+
+    setEditing(true)
+  }
+
+  /* =========================
+     CANCEL EDITING
+  ========================= */
+
+  function handleCancel() {
+    setError('')
+    setMessage('')
+    setEditing(false)
+  }
+
+  /* =========================
+     SAVE PROFILE
+  ========================= */
+
+  async function handleSave(e) {
+    e.preventDefault()
+
+    setSaving(true)
+    setError('')
+    setMessage('')
+
+    const { error: updateError } =
+      await supabase.rpc('update_profile', {
+        p_username: username,
+        p_display_name: displayName,
+        p_phone: phone,
+        p_address: address,
+        p_gender: gender,
+      })
+
+    setSaving(false)
+
+    if (updateError) {
+      setError(updateError.message)
+      return
+    }
+
+    setProfile((current) => ({
+      ...current,
+      username: username.trim(),
+      display_name: displayName.trim(),
+      phone: phone.trim(),
+      address: address.trim(),
+      gender: gender.trim(),
+    }))
+
+    setEditing(false)
+    setMessage('Profile updated successfully.')
+  }
+
+  /* =========================
+     LOGOUT
+  ========================= */
+
   async function handleLogout() {
     await supabase.auth.signOut()
     navigate('/')
@@ -293,36 +374,194 @@ function Account() {
             </div>
           )}
 
+          {message && (
+            <div className="auth-message">
+              {message}
+            </div>
+          )}
+
           <div className="apps">
+
+            {/* =========================
+                PROFILE
+            ========================= */}
+
             <div className="app-card">
               <h2>Profile</h2>
 
-              <div className="account-info">
-                <div>
-                  <strong>Name</strong>
+              {!editing ? (
+                <>
+                  <div className="account-info">
 
-                  <span>
-                    {profile?.display_name || '-'}
-                  </span>
-                </div>
+                    <div>
+                      <strong>Username</strong>
 
-                <div>
-                  <strong>Email</strong>
+                      <span>
+                        {profile?.username || '-'}
+                      </span>
+                    </div>
 
-                  <span>
-                    {user.email || '-'}
-                  </span>
-                </div>
+                    <div>
+                      <strong>Name</strong>
 
-                <div>
-                  <strong>Phone</strong>
+                      <span>
+                        {profile?.display_name || '-'}
+                      </span>
+                    </div>
 
-                  <span>
-                    {profile?.phone || '-'}
-                  </span>
-                </div>
-              </div>
+                    <div>
+                      <strong>Email</strong>
+
+                      <span>
+                        {user.email || '-'}
+                      </span>
+                    </div>
+
+                    <div>
+                      <strong>Phone</strong>
+
+                      <span>
+                        {profile?.phone || '-'}
+                      </span>
+                    </div>
+
+                    <div>
+                      <strong>Address</strong>
+
+                      <span>
+                        {profile?.address || '-'}
+                      </span>
+                    </div>
+
+                    <div>
+                      <strong>Gender</strong>
+
+                      <span>
+                        {profile?.gender || '-'}
+                      </span>
+                    </div>
+
+                  </div>
+
+                  <button
+                    className="btn btn-primary"
+                    onClick={handleEdit}
+                  >
+                    Edit Profile
+                  </button>
+                </>
+              ) : (
+                <form onSubmit={handleSave}>
+
+                  <div className="form-group">
+                    <label>Username</label>
+
+                    <input
+                      type="text"
+                      value={username}
+                      onChange={(e) =>
+                        setUsername(e.target.value)
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Name</label>
+
+                    <input
+                      type="text"
+                      value={displayName}
+                      onChange={(e) =>
+                        setDisplayName(e.target.value)
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Email</label>
+
+                    <input
+                      type="email"
+                      value={user.email || ''}
+                      disabled
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Phone</label>
+
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) =>
+                        setPhone(e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Address</label>
+
+                    <input
+                      type="text"
+                      value={address}
+                      onChange={(e) =>
+                        setAddress(e.target.value)
+                      }
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Gender</label>
+
+                    <select
+                      value={gender}
+                      onChange={(e) =>
+                        setGender(e.target.value)
+                      }
+                    >
+                      <option value="">
+                        Select gender
+                      </option>
+
+                      <option value="Male">
+                        Male
+                      </option>
+
+                      <option value="Female">
+                        Female
+                      </option>
+                    </select>
+                  </div>
+
+                  <div className="header-buttons">
+                    <button
+                      className="btn btn-primary"
+                      type="submit"
+                      disabled={saving}
+                    >
+                      {saving ? 'Saving...' : 'Save'}
+                    </button>
+
+                    <button
+                      className="btn btn-ghost"
+                      type="button"
+                      onClick={handleCancel}
+                      disabled={saving}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+
+                </form>
+              )}
             </div>
+
+            {/* =========================
+                ROLES
+            ========================= */}
 
             <div className="app-card">
               <h2>My Roles</h2>
@@ -345,6 +584,10 @@ function Account() {
               )}
             </div>
 
+            {/* =========================
+                REQUEST ROLE
+            ========================= */}
+
             <div className="app-card">
               <h2>Request a Role</h2>
 
@@ -359,6 +602,7 @@ function Account() {
                 </button>
               </Link>
             </div>
+
           </div>
         </div>
       </main>
