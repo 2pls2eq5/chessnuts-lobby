@@ -353,6 +353,7 @@ button {
   margin-top: 16px;
 }
 
+```css
 /* =========================
    ACCOUNT
 ========================= */
@@ -364,40 +365,95 @@ button {
 .account-info {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 22px;
+  gap: 0;
+  margin-top: 20px;
+  margin-bottom: 24px;
 }
 
 .account-info div {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding-bottom: 14px;
+  gap: 5px;
+  padding: 14px 0;
   border-bottom: 1px solid #eee;
 }
 
+.account-info div:first-child {
+  padding-top: 4px;
+}
+
 .account-info div:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
+  border-bottom: none;
 }
 
 .account-info strong {
-  font-size: 13px;
+  font-size: 12px;
   color: #777;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
 }
 
 .account-info span {
   color: #111;
   font-size: 16px;
+  line-height: 1.4;
 }
+
+/* =========================
+   PROFILE EDIT FORM
+========================= */
+
+.app-card form {
+  margin-top: 20px;
+}
+
+.app-card form .form-group {
+  margin-bottom: 18px;
+}
+
+.app-card form .form-group:last-of-type {
+  margin-bottom: 24px;
+}
+
+.app-card form input,
+.app-card form select {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.app-card form input:disabled {
+  background: #f1f1ed;
+  color: #777;
+  cursor: not-allowed;
+}
+
+/* =========================
+   PROFILE BUTTONS
+========================= */
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* =========================
+   SUCCESS MESSAGE
+========================= */
+
+.auth-message {
+  margin-bottom: 20px;
+}
+
+/* =========================
+   ROLES
+========================= */
 
 .roles {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 .role-badge {
@@ -409,8 +465,9 @@ button {
   color: #17633e;
   font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.3px;
 }
+```
+
 
 /* =========================
    MOBILE
