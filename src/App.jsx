@@ -150,15 +150,17 @@ function Home() {
                   Your chess lessons, schedules,
                   progress and more.
                 </p>
-
-                <button
-                  className="btn btn-primary"
-                  onClick={() =>
-                    alert('Academy coming soon!')
-                  }
-                >
-                  Open Academy
-                </button>
+                
+                 <div className="app-card-actions">
+                  <button
+                   className="btn btn-primary"
+                   onClick={() =>
+                     alert('Academy coming soon!')
+                   }
+                 >
+                   Open Academy
+                 </button>
+                 </div>
               </div>
 
               {/* =========================
@@ -172,16 +174,17 @@ function Home() {
                   Create and manage Chessnuts
                   broadcasts and programs.
                 </p>
-
-                <button
-                  className="btn btn-primary"
-                  onClick={() =>
-                    alert('Studio coming soon!')
-                  }
-                >
-                  Open Studio
-                </button>
-              </div>
+                 <div className="app-card-actions">
+                  <button
+                   className="btn btn-primary"
+                   onClick={() =>
+                     alert('Studio coming soon!')
+                   }
+                 >
+                   Open Studio
+                 </button>
+                </div>
+               </div>
 
             </div>
           </div>
