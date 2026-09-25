@@ -354,7 +354,7 @@ button {
 
 .app-card .btn {
   margin-top: auto;
-  align-self: flex-start;
+  align-self: center;
 }
 
 /* =========================
