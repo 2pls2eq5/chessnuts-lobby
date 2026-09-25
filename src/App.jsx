@@ -797,6 +797,36 @@ function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
+  function getReturnTo() {
+    const params = new URLSearchParams(
+      window.location.search
+    )
+
+    const returnTo = params.get('returnTo')
+
+    if (!returnTo) {
+      return null
+    }
+
+    try {
+      const url = new URL(returnTo)
+
+      if (
+        url.protocol === 'https:' &&
+        (
+          url.hostname === 'chessnuts.fun' ||
+          url.hostname.endsWith('.chessnuts.fun')
+        )
+      ) {
+        return url.href
+      }
+    } catch {
+      return null
+    }
+
+    return null
+  }
+
   async function handleLogin(e) {
     e.preventDefault()
 
@@ -813,6 +843,13 @@ function Login() {
 
     if (error) {
       setError(error.message)
+      return
+    }
+
+    const returnTo = getReturnTo()
+
+    if (returnTo) {
+      window.location.href = returnTo
       return
     }
 
@@ -876,7 +913,10 @@ function Login() {
           </div>
         )}
 
-        <Link to="/" className="auth-back">
+        <Link
+          to="/"
+          className="auth-back"
+        >
           ← Back to Chessnuts
         </Link>
       </div>
