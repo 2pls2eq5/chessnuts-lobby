@@ -163,6 +163,7 @@ function Home() {
   )
 }
 
+```jsx
 /* =========================
    ACCOUNT
 ========================= */
@@ -192,12 +193,18 @@ function Account() {
 
       setUser(user)
 
-      const { data: profileData, error: profileError } =
-        await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user.id)
-          .single()
+      /* =========================
+         LOAD PROFILE
+      ========================= */
+
+      const {
+        data: profileData,
+        error: profileError,
+      } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single()
 
       if (profileError) {
         setError(profileError.message)
@@ -207,28 +214,28 @@ function Account() {
 
       setProfile(profileData)
 
-      const loadedRoles = []
+      /* =========================
+         LOAD ROLES
+      ========================= */
 
-      const roleTables = [
-        ['ADMIN', 'admins'],
-        ['COACH', 'coaches'],
-        ['STUDENT', 'students'],
-        ['PARENT', 'parents'],
-      ]
+      const {
+        data: roleData,
+        error: roleError,
+      } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
 
-      for (const [role, table] of roleTables) {
-        const { data, error } = await supabase
-          .from(table)
-          .select('id')
-          .eq('id', user.id)
-          .maybeSingle()
-
-        if (!error && data) {
-          loadedRoles.push(role)
-        }
+      if (roleError) {
+        setError(roleError.message)
+        setLoading(false)
+        return
       }
 
-      setRoles(loadedRoles)
+      setRoles(
+        (roleData || []).map((item) => item.role)
+      )
+
       setLoading(false)
     }
 
@@ -275,6 +282,7 @@ function Account() {
         <div className="container account-page">
           <div className="welcome">
             <h1>Account</h1>
+
             <p>
               Your global Chessnuts account.
             </p>
@@ -293,24 +301,25 @@ function Account() {
               <div className="account-info">
                 <div>
                   <strong>Name</strong>
+
                   <span>
-                    {profile?.display_name ||
-                      user.user_metadata?.display_name ||
-                      '-'}
+                    {profile?.display_name || '-'}
                   </span>
                 </div>
 
                 <div>
                   <strong>Email</strong>
-                  <span>{user.email}</span>
+
+                  <span>
+                    {user.email || '-'}
+                  </span>
                 </div>
 
                 <div>
                   <strong>Phone</strong>
+
                   <span>
-                    {profile?.phone ||
-                      user.user_metadata?.phone ||
-                      '-'}
+                    {profile?.phone || '-'}
                   </span>
                 </div>
               </div>
@@ -357,6 +366,8 @@ function Account() {
     </div>
   )
 }
+```
+
 
 /* =========================
    REQUEST ROLE
