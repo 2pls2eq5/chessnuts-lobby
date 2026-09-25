@@ -332,6 +332,13 @@ button {
   flex-direction: column;
 }
 
+.app-card-actions {
+  margin-top: auto;
+  padding-top: 28px;
+  display: flex;
+  justify-content: center;
+}
+
 .app-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
