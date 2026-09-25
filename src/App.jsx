@@ -341,7 +341,7 @@ function Account() {
         <div className="container header-inner">
           <Logo />
 
-          <div className="header-buttons">
+          <div className="profile-actions">
             <Link to="/">
               <button className="btn btn-ghost">
                 Home
