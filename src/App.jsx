@@ -22,19 +22,32 @@ function Logo() {
 ========================= */
 
 function Home() {
-  const navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function getUser() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+async function getUser() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-      setUser(user)
-      setLoading(false)
-    }
+  setUser(user)
+
+  if (user) {
+    const {
+      data: profileData,
+    } = await supabase
+      .from('profiles')
+      .select('display_name')
+      .eq('id', user.id)
+      .single()
+
+    setProfile(profileData)
+  }
+
+  setLoading(false)
+}
 
     getUser()
 
@@ -129,7 +142,7 @@ function Home() {
             <div className="welcome">
               <h1>
                 Welcome back,{' '}
-                {user.user_metadata?.display_name || user.email}
+                {profile?.display_name || user.email}
               </h1>
 
               <p>
