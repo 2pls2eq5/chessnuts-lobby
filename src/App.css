@@ -327,6 +327,9 @@ button {
   border-radius: 16px;
   padding: 28px;
   transition: 0.2s ease;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .app-card:hover {
@@ -346,11 +349,12 @@ button {
 .app-card p {
   color: #444;
   line-height: 1.5;
-  margin: 0 0 4px;
+  margin: 0;
 }
 
 .app-card .btn {
-  margin-top: 16px;
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 /* =========================
