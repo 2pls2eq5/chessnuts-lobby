@@ -138,7 +138,29 @@ function Home() {
             </div>
 
             <div className="apps">
+{/* =========================
+    COMMUNITY
+========================= */}
 
+<div className="app-card">
+  <h2>Chessnuts Community</h2>
+
+  <p>
+    Connect, share and be part of the
+    Chessnuts chess community.
+  </p>
+
+  <div className="app-card-actions">
+    <button
+      className="btn btn-primary"
+      onClick={() =>
+        alert('Community coming soon!')
+      }
+    >
+      Open Community
+    </button>
+  </div>
+</div>
               {/* =========================
                   ACADEMY
               ========================= */}
