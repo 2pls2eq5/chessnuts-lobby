@@ -190,8 +190,9 @@ async function getUser() {
                   <button
                    className="btn btn-primary"
                    onClick={() =>
-                     alert('Academy coming soon!')
-                   }
+                     window.location.href =
+      'https://academy.chessnuts.fun'
+  }
                  >
                    Open Academy
                  </button>
