@@ -138,6 +138,11 @@ function Home() {
             </div>
 
             <div className="apps">
+
+              {/* =========================
+                  ACADEMY
+              ========================= */}
+
               <div className="app-card">
                 <h2>Chessnuts Academy</h2>
 
@@ -155,6 +160,29 @@ function Home() {
                   Open Academy
                 </button>
               </div>
+
+              {/* =========================
+                  STUDIO
+              ========================= */}
+
+              <div className="app-card">
+                <h2>Chessnuts Studio</h2>
+
+                <p>
+                  Create and manage Chessnuts
+                  broadcasts and programs.
+                </p>
+
+                <button
+                  className="btn btn-primary"
+                  onClick={() =>
+                    alert('Studio coming soon!')
+                  }
+                >
+                  Open Studio
+                </button>
+              </div>
+
             </div>
           </div>
         </main>
